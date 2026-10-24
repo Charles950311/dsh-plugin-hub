@@ -1,0 +1,14 @@
+# local configuration with personal paths — never commit
+config.ps1
+
+# generated manifests contain local paths — never commit
+PROVENANCE.md
+PROVENANCE.draft.md
+
+# build artifacts
+dist/
+*.zip
+
+# editor
+*.swp
+Thumbs.db
