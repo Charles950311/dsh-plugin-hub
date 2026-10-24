@@ -2,6 +2,8 @@
 
 **One control hub for every plugin and skill installed in DeepSeek Harness (dsh).**
 
+<p align="center"><img src="docs/doctor-demo.png" alt="doctor.ps1 health check" width="880"></p>
+
 DeepSeek Harness ships a deliberately barebones core — "everything is a plugin".
 Within weeks its community produced turn rewind, long-term memory, skill cards,
 failure-experience libraries, Obsidian bridges, browser automation, local
@@ -63,6 +65,15 @@ Windows-first (junctions, PowerShell). PRs for other platforms welcome.
 - [x] `doctor` mode: per-check PASS/WARN/FAIL with fix hints (`doctor.ps1`, `-Fix` applies safe repairs)
 - [x] Provenance generator: auto-draft the manifest from `dsh plugin list` (`gen-provenance.ps1`, `-Online` enriches via npm)
 - [ ] Community routing-table presets (security, media, office workflows)
+
+## More from TaintLens Studio
+
+This hub grew out of a production single-operator studio running security-audit
+and skills-factory pipelines. If you find it useful:
+
+- **Security services** (code audit, SRC report review): <https://Charles950311.github.io/taintlens-studio/>
+- **Agent skills & toolkits** (TaintLens Code Audit, Local Transcribe Toolkit, Browser Pilot): see the studio page
+- Open an issue here for hub questions — PRs for new routing-table presets are welcome.
 
 ## Related projects
 
