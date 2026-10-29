@@ -47,6 +47,12 @@ if ($AgentBrowserCmd) { $paths["agent-browser"] = $AgentBrowserCmd }
 if ($WhisperCli)      { $paths["whisper-cli"]   = $WhisperCli }
 if ($SkillScannerCmd) { $paths["skill-scanner"] = $SkillScannerCmd }
 $paths["plugin-hub"] = Join-Path $hub "SKILL.md"
+# Repo checkout layout keeps the skill in skill\; the installed layout copies
+# it to the hub root. Accept both instead of reporting a false MISS.
+if (-not (Test-Path $paths["plugin-hub"])) {
+    $repoSkill = Join-Path $hub "skill\SKILL.md"
+    if (Test-Path $repoSkill) { $paths["plugin-hub"] = $repoSkill }
+}
 foreach ($k in $paths.Keys) {
     $p = $paths[$k]
     if (Test-Path $p) { Write-Output ("{0,-16} OK   {1}" -f $k, $p) }
