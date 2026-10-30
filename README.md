@@ -1,5 +1,7 @@
 # dsh-plugin-hub
 
+[![test](https://github.com/Charles950311/dsh-plugin-hub/actions/workflows/test.yml/badge.svg)](https://github.com/Charles950311/dsh-plugin-hub/actions/workflows/test.yml)
+
 **One control hub for every plugin and skill installed in DeepSeek Harness (dsh).**
 
 <p align="center"><img src="docs/demo.gif" alt="30-second demo: install, doctor checks, and the routing table answer" width="880"></p>

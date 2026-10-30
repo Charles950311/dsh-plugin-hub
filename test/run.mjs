@@ -7,12 +7,22 @@
  */
 
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const REPO = path.resolve(HERE, "..");
 const home = await mkdtemp(path.join(tmpdir(), "dsh-hub-test-"));
 process.env.DSH_HOME = home;
+
+// The harness ships @deepseek-ai/dsh-tools internally; outside a profile we
+// substitute the committed stub. node_modules/ is gitignored, so the test
+// (re)installs it — this also makes `node test/run.mjs` work in CI.
+const stubDest = path.join(REPO, "node_modules", "@deepseek-ai", "dsh-tools");
+await mkdir(stubDest, { recursive: true });
+await cp(path.join(HERE, "stubs", "@deepseek-ai", "dsh-tools"), stubDest, { recursive: true });
 
 const { apply, name, inject } = await import("../lib/index.js");
 
