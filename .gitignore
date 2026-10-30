@@ -12,3 +12,6 @@ dist/
 # editor
 *.swp
 Thumbs.db
+
+# test double for harness-internal packages (see test/run.mjs)
+node_modules/

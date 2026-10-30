@@ -28,7 +28,35 @@ transcription, security scanners... and then you face the real problem:
 - **Safety rules baked in** — third-party skills are untrusted by default; scan
   before install; no safety-policy-bypassing or account-pool plugins.
 
-## Quick start (Windows, PowerShell 5.1+)
+## Two ways to run it
+
+**1. As a dsh bundle (recommended).** The repo is an installable DeepSeek
+Harness bundle: `package.json` declares `dsh.bundle`, and `cordis.patch.yml`
+registers the plugin. Installing it adds three tools to the session:
+
+```powershell
+dsh plugin --profile desktop add https://github.com/Charles950311/dsh-plugin-hub
+```
+
+| Tool | Answers |
+| --- | --- |
+| `hub_plugins` | what is installed in this profile, which version, and whether each bundle is actually present on disk |
+| `hub_check` | PASS/WARN/FAIL per check — profile manifest, third-party bundles on disk, skills directory, local services — each with a fix hint |
+| `hub_route` | "which plugin handles X", from a maintained routing table, including whether that plugin is installed |
+
+All three are read-only: nothing is installed, removed or patched. Platform
+bundles (`@deepseek-ai/*`) are reported as `BUILTIN` — they ship inside the
+harness, so a missing `node_modules` copy is normal, not a fault.
+
+The npm name is `dsh-control-hub` (`dsh-plugin-hub` was already taken on npm);
+the GitHub repo keeps the original name.
+
+**2. As a skill + CLI scripts.** The original layout still works and needs no
+Node: `install.ps1` copies the hub skill and junctions it into
+`%USERPROFILE%\.dsh\skills`; `status.ps1` / `doctor.ps1` /
+`gen-provenance.ps1` run outside the harness. See Quick start below.
+
+## Quick start (skill + scripts, Windows, PowerShell 5.1+)
 
 ```powershell
 git clone https://github.com/<you>/dsh-plugin-hub.git
@@ -79,6 +107,7 @@ Windows-first (junctions, PowerShell). PRs for other platforms welcome.
 
 ## Roadmap
 
+- [x] Installable bundle: `dsh.bundle` + `cordis.patch.yml` contributing `hub_plugins`, `hub_check`, `hub_route` (read-only)
 - [x] 30-second demo GIF (`docs/demo.gif` — rendered from a sandbox run by
   `docs/make-demo-gif.py`; profile prefix shown as `C:\Users\you`)
 - [x] `doctor` mode: per-check PASS/WARN/FAIL with fix hints (`doctor.ps1`, `-Fix` applies safe repairs)

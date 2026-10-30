@@ -1,0 +1,17 @@
+# dsh-control-hub bundle patch
+#
+# Registers the hub plugin, which contributes three tools:
+#   hub_plugins  - what is installed in the current profile, and is each bundle present on disk
+#   hub_check    - PASS/WARN/FAIL per check with a fix hint (services, bundles, skills dir)
+#   hub_route    - which plugin handles a given task, from the maintained routing table
+#
+# The plugin only reads local state. It never installs, removes or patches anything.
+- insert:
+    - id: dsh-control-hub
+      name: dsh-control-hub
+      inject: [tools]
+      config:
+        profile: desktop
+        services:
+          - name: hindsight
+            port: 8888

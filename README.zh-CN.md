@@ -24,7 +24,31 @@ DSH 内核刻意做得很薄——"Everything is a Plugin"。几周内社区就�
 - **内置安全规则**——第三方技能默认不可信;装前扫描;不装绕过安全策略和
   账号池类插件。
 
-## 快速开始(Windows,PowerShell 5.1+)
+## 两种用法
+
+**1. 作为 dsh bundle(推荐)。** 本仓库现在就是可安装的 DeepSeek Harness bundle:
+`package.json` 声明 `dsh.bundle`,`cordis.patch.yml` 注册插件。装完会话里多三个工具:
+
+```powershell
+dsh plugin --profile desktop add https://github.com/Charles950311/dsh-plugin-hub
+```
+
+| 工具 | 回答什么 |
+| --- | --- |
+| `hub_plugins` | 这个 profile 里装了什么、什么版本、每个 bundle 是否真的在磁盘上 |
+| `hub_check` | 逐项 PASS/WARN/FAIL:profile 清单、第三方 bundle、技能目录、本地服务,每项带修复提示 |
+| `hub_route` | "X 该用哪个插件",来自持续维护的路由表,并标明该插件是否已安装 |
+
+三个工具全部**只读**:不安装、不卸载、不打补丁。平台内置包(`@deepseek-ai/*`)标为
+`BUILTIN`——它们随 harness 一起发布,`node_modules` 里没有副本是正常的,不是故障。
+
+npm 包名是 `dsh-control-hub`(npm 上 `dsh-plugin-hub` 已被占用),GitHub 仓库保留原名。
+
+**2. 作为技能 + 命令行脚本。** 原方式照旧、不依赖 Node:`install.ps1` 复制 hub 技能并
+Junction 到 `%USERPROFILE%\.dsh\skills`;`status.ps1` / `doctor.ps1` / `gen-provenance.ps1`
+在 harness 之外直接跑。见下方快速开始。
+
+## 快速开始(技能 + 脚本,Windows,PowerShell 5.1+)
 
 ```powershell
 git clone https://github.com/<you>/dsh-plugin-hub.git

@@ -1,0 +1,67 @@
+{
+  "name": "dsh-control-hub",
+  "version": "1.0.0",
+  "description": "Inventory, health checks and dispatch routing for the plugins and skills installed in DeepSeek Harness: one tool reports what is installed, one reports what is actually running, one answers which plugin handles a given task.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./routing-table.json": "./lib/routing-table.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "skill",
+    "templates",
+    "config.example.ps1",
+    "install.ps1",
+    "status.ps1",
+    "doctor.ps1",
+    "hindsight.ps1",
+    "gen-provenance.ps1",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "plugin-management",
+    "inventory",
+    "health-check",
+    "dispatch",
+    "agent"
+  ],
+  "license": "MIT",
+  "author": "TaintLens Studio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Charles950311/dsh-plugin-hub.git"
+  },
+  "homepage": "https://github.com/Charles950311/dsh-plugin-hub#readme",
+  "bugs": {
+    "url": "https://github.com/Charles950311/dsh-plugin-hub/issues"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "install": {
+      "preferred": "tarball",
+      "tarball": "https://github.com/Charles950311/dsh-plugin-hub/archive/refs/heads/main.tar.gz",
+      "zip": "https://github.com/Charles950311/dsh-plugin-hub/archive/refs/heads/main.zip",
+      "git": "https://github.com/Charles950311/dsh-plugin-hub.git"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dshTarget": "0.2.0-rc.2"
+}

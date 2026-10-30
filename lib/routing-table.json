@@ -1,0 +1,85 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-10-30",
+  "note": "Maintained dispatch table. hub_route searches intent/plugin/entry/note. The same table lives in skill/SKILL.md for agents that read the skill instead of calling the tool.",
+  "routes": [
+    {
+      "intent": "remember, recall, long-term memory, cross-session, remember this",
+      "plugin": "dsh-hindsight",
+      "entry": "hindsight_* tools or /hindsight",
+      "note": "Needs the Hindsight service running; default port 8888."
+    },
+    {
+      "intent": "failure notes, past fixes, how did I solve this before",
+      "plugin": "misakanet",
+      "entry": "mcp__misakanet__* tools",
+      "note": "Community failure-experience library."
+    },
+    {
+      "intent": "rewind, undo, revert, go back to the last turn",
+      "plugin": "dsh-turn-rewind",
+      "entry": "conversation and workspace rewind",
+      "note": "Also reachable from the Web UI."
+    },
+    {
+      "intent": "skill cards, pick a skill, browse skills",
+      "plugin": "dsh-skill-cards",
+      "entry": "cards under the input box",
+      "note": "Web UI entry."
+    },
+    {
+      "intent": "self-improvement, retrospective, distill lessons, learn from this",
+      "plugin": "@klarkxy/dsh-self-improvement",
+      "entry": "background/UI feature",
+      "note": ""
+    },
+    {
+      "intent": "obsidian, notes, knowledge base, vault",
+      "plugin": "dsh-obsidian",
+      "entry": "obsidian_* tools",
+      "note": "Set the vault path in the plugin settings."
+    },
+    {
+      "intent": "web page, click, fill a form, screenshot, scrape",
+      "plugin": "agent-browser",
+      "entry": "agent-browser skill plus local CLI",
+      "note": "Verify with ab.cmd --version."
+    },
+    {
+      "intent": "transcribe, audio to text, subtitles, offline ASR",
+      "plugin": "local-whisper",
+      "entry": "local-whisper skill plus whisper.cpp",
+      "note": "Models live under your whisper directory."
+    },
+    {
+      "intent": "scan a skill, is this skill safe, pre-install check, prompt injection",
+      "plugin": "skill-scanner",
+      "entry": "skill-scanner skill plus Cisco Skill Scanner",
+      "note": "Scan before installing any third-party skill."
+    },
+    {
+      "intent": "find skills, skill marketplace, discover skills",
+      "plugin": "find-skills",
+      "entry": "find-skills skill plus npx skills",
+      "note": "Needs network access."
+    },
+    {
+      "intent": "web search, research, look something up",
+      "plugin": "built-in",
+      "entry": "web_search / web_fetch",
+      "note": "Built in, nothing to install."
+    },
+    {
+      "intent": "word, excel, powerpoint, docx, xlsx, pptx, office document",
+      "plugin": "built-in",
+      "entry": "office-docx / office-xlsx / office-pptx",
+      "note": "Built in, nothing to install."
+    },
+    {
+      "intent": "uninstall, remove a plugin, clean up leftovers",
+      "plugin": "dsh-purge",
+      "entry": "dsh plugin remove plus its cleanup",
+      "note": ""
+    }
+  ]
+}
