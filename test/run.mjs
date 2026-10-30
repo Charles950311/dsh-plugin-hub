@@ -110,6 +110,24 @@ for (const r of table.routes) {
 // --- argument validation is not silently lenient ---------------------------
 await assert.rejects(() => byName.hub_route.execute({}), /bad args/, "query is required");
 
+// --- profile resolution: config wins, then DSH_PROFILE ----------------------
+await mkdir(path.join(home, "profiles", "work"), { recursive: true });
+await writeFile(
+  path.join(home, "profiles", "work", "package.json"),
+  JSON.stringify({ name: "dsh-profile-work", private: true, dsh: { profile: { bundles: [] } } }),
+);
+const envTools = new Map();
+apply(
+  { tools: { register: (t) => (envTools.set(t.name, t), () => {}) }, effect: (fn) => fn() },
+  {},
+);
+process.env.DSH_PROFILE = "work";
+const viaEnv = await envTools.get("hub_plugins").execute({});
+assert.match(viaEnv.profileDir, /profiles[\\/]work$/, "DSH_PROFILE is honoured when config is empty");
+process.env.DSH_PROFILE = "";
+const viaConfig = await envTools.get("hub_plugins").execute({ profile: "desktop" });
+assert.match(viaConfig.profileDir, /profiles[\\/]desktop$/, "explicit config still wins");
+
 await rm(home, { recursive: true, force: true });
 console.log(
   `PASS: 3 tools registered; inventory ${inv.bundles.length} bundles / ${inv.skills.length} skills; ` +
