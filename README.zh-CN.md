@@ -2,6 +2,8 @@
 
 **DeepSeek Harness(dsh)里所有插件与技能的统一入口。**
 
+<p align="center"><img src="docs/demo.gif" alt="30 秒演示:安装、doctor 体检、路由表给出答案" width="880"></p>
+
 DSH 内核刻意做得很薄——"Everything is a Plugin"。几周内社区就产出了对话回退、
 长期记忆、技能卡片、失败经验库、Obsidian 桥、浏览器自动化、本地转写、安全扫描……
 然后你会遇到真正的问题:
@@ -37,6 +39,22 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 装了哪些插件?长期记忆用哪个?
 ```
 
+## 体检与诊断
+
+`status.ps1` 给清单,`doctor.ps1` 给逐项判定与修复提示,`-Fix` 自动修安全项
+(UTF-8 BOM、缺失的 Junction):
+
+<p align="center"><img src="docs/doctor-demo.png" alt="doctor.ps1 输出:逐项 PASS/WARN 与修复提示" width="880"></p>
+
+```
+[PASS] config.ps1 present, UTF-8 BOM ok
+[PASS] junction points here
+[WARN] hindsight DOWN on port 8888
+       memory tools will fake-fail; start the service, then re-check.
+```
+
+这条 WARN 就是重点:**插件加载成功 ≠ 服务在跑**,总控台会明说,而不是让调用假成功。
+
 ## 兼容性
 
 | dsh 版本 | 状态 |
@@ -54,10 +72,10 @@ Windows 优先(Junction、PowerShell)。欢迎提交其他平台的 PR。
 
 ## Roadmap
 
-- [ ] 30 秒演示 GIF
-- [ ] `doctor` 模式:对常见故障给出修复建议
+- [x] 30 秒演示 GIF(`docs/demo.gif`,由 `docs/make-demo-gif.py` 从沙盒真实运行渲染;路径前缀展示为 `C:\Users\you`)
+- [x] `doctor` 模式:逐项 PASS/WARN/FAIL 并给修复提示(`doctor.ps1`,`-Fix` 修安全项)
+- [x] 清单生成器:从 `dsh plugin list` 自动起草 PROVENANCE(`gen-provenance.ps1`,`-Online` 用 npm 补全)
 - [ ] 社区路由表预设(安全、媒体、办公工作流)
-- [ ] 清单生成器:从 `dsh plugin list` 自动起草 PROVENANCE
 
 ---
 

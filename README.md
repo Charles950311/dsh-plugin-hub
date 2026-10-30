@@ -2,7 +2,7 @@
 
 **One control hub for every plugin and skill installed in DeepSeek Harness (dsh).**
 
-<p align="center"><img src="docs/doctor-demo.png" alt="doctor.ps1 health check" width="880"></p>
+<p align="center"><img src="docs/demo.gif" alt="30-second demo: install, doctor checks, and the routing table answer" width="880"></p>
 
 DeepSeek Harness ships a deliberately barebones core — "everything is a plugin".
 Within weeks its community produced turn rewind, long-term memory, skill cards,
@@ -43,6 +43,24 @@ Restart DSH (or reload its Web UI) and ask your agent:
 Which plugins are installed, and which one handles long-term memory?
 ```
 
+## Health checks
+
+`status.ps1` gives you the inventory; `doctor.ps1` gives you a verdict per check
+with a fix hint, and `-Fix` applies the safe repairs (UTF-8 BOM, missing
+junction):
+
+<p align="center"><img src="docs/doctor-demo.png" alt="doctor.ps1 output: PASS/WARN per check with fix hints" width="880"></p>
+
+```
+[PASS] config.ps1 present, UTF-8 BOM ok
+[PASS] junction points here
+[WARN] hindsight DOWN on port 8888
+       memory tools will fake-fail; start the service, then re-check.
+```
+
+That WARN is the point: a loaded plugin is not a running service, and the hub
+says so instead of letting a call fake-succeed.
+
 ## Compatibility
 
 | dsh version | Status |
@@ -61,7 +79,8 @@ Windows-first (junctions, PowerShell). PRs for other platforms welcome.
 
 ## Roadmap
 
-- [ ] 30-second demo GIF
+- [x] 30-second demo GIF (`docs/demo.gif` — rendered from a sandbox run by
+  `docs/make-demo-gif.py`; profile prefix shown as `C:\Users\you`)
 - [x] `doctor` mode: per-check PASS/WARN/FAIL with fix hints (`doctor.ps1`, `-Fix` applies safe repairs)
 - [x] Provenance generator: auto-draft the manifest from `dsh plugin list` (`gen-provenance.ps1`, `-Online` enriches via npm)
 - [ ] Community routing-table presets (security, media, office workflows)
