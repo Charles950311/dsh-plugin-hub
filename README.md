@@ -95,6 +95,7 @@ says so instead of letting a call fake-succeed.
 | --- | --- |
 | 0.2.0-rc.2 (Desktop) | tested — hub in production use |
 | 0.2.1-rc.2 (Desktop) | tested — incl. turn-rewind 0.3.10 compat fixes |
+| 0.2.1-rc.3 (CLI `headless`) | tested — bundle installs, activates, and a real session's model calls `hub_check` and reports its values |
 
 Windows-first (junctions, PowerShell). PRs for other platforms welcome.
 
