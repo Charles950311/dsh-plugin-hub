@@ -59,6 +59,30 @@ const byName = Object.fromEntries(registered.map((t) => [t.name, t]));
 const asText = (tool, args, value) =>
   tool.output.render(args, value).map((b) => b.text).join("\n");
 
+// --- output schemas must stay inside the harness-supported JSON Schema subset
+// (it rejects `required: true` on a property; `required` is an object-level array)
+function assertSupportedSchema(schema, where) {
+  if (!schema || typeof schema !== "object") return;
+  assert.notEqual(
+    typeof schema.required,
+    "boolean",
+    `${where}: property-level required is unsupported, use an object-level array`,
+  );
+  if (schema.type === "array") assert.ok(schema.items, `${where}: array needs items`);
+  if (Array.isArray(schema.required)) {
+    for (const key of schema.required) {
+      assert.ok(schema.properties?.[key], `${where}: required names "${key}" not declared`);
+    }
+  }
+  for (const [key, sub] of Object.entries(schema.properties ?? {})) {
+    assert.ok(sub.type, `${where}.${key}: missing type`);
+    assert.ok(!("required" in sub), `${where}.${key}: nested required is unsupported`);
+    assertSupportedSchema(sub, `${where}.${key}`);
+  }
+  if (schema.items) assertSupportedSchema(schema.items, `${where}[]`);
+}
+for (const tool of registered) assertSupportedSchema(tool.output.schema, `${tool.name}.output`);
+
 // --- hub_plugins -----------------------------------------------------------
 const inv = await byName.hub_plugins.execute({});
 assert.equal(inv.bundles.length, 3);
